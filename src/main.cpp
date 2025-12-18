@@ -15,13 +15,15 @@ int main()
     //Variables
     float startX = 50.0f;
     float startY = 50.0f;
-    float xVelocity = 5.0f;
-    float yVelocity = 0.0f;
+    float xVelocityInitial = 5.0f;
+    float yVelocityInitial = 0.0f;
     float accelX = 0.0f;
     float accelY = 9.8f;
     float currentX = startX;
     float currentY = startY;
-    double dt = 0.5f;
+    float previousVx = xVelocityInitial;
+    float previousVy = yVelocityInitial;
+    double dt = 0.05f;
 
     ball.setFillColor(sf::Color(255,165,0));
     ball.setPosition({startX, startY});
@@ -38,9 +40,14 @@ int main()
         }
 
         //PHYSICS
+        //CALCLUATION BALL VELOCITY
+        float currentVx = previousVx + accelX * dt;
+        float currentVy = previousVy + accelY * dt;
+        previousVx = currentVx;
+        previousVy = currentVy;
         //CALCULATION FOR BALL'S NEXT POSITION
-        float nextX = currentX + (xVelocity * dt);
-        float nextY = currentY + (yVelocity * dt);
+        float nextX = currentX + (currentVx * dt);
+        float nextY = currentY + (currentVy * dt);
         ball.setPosition({nextX,nextY});
         currentX = nextX;
         currentY = nextY;
